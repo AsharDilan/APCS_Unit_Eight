@@ -5,13 +5,40 @@ import java.awt.*;
 public class MapDataDrawer
 {
 
-    private int[][] grid;
+    private int grid;
 
-    public MapDataDrawer(String filename, int rows, int cols){
-        // initialize grid
+    public File MapDataDrawer(String filename, int rows, int columns) throws FileNotFoundException {
+        int[][] grid = new int [rows][columns];
+        Scanner scan = new Scanner("files/Colorado_844x480.dat");
+        for (int i = 0; i < rows.length; i++){
+            for (int j = 0; j < columns.length; j++){
+                grid[i][j] =
+            }
+        }
+    }    // initialize grid
         //read the data from the file into the grid
 
-    }
+
+        private static void readfile () throws FileNotFoundException {
+            int[][] grid = [ROWS][COLUMNS];
+            Scanner scan = new Scanner(choseTextFile());
+            while (scan.hasNextLine()) {
+                for (int i = 0; i < grid.length; i++) {
+                    String[] line = scan.nextLine().trim().split("," + " ");
+                    for (int j = 0; j < line.length; j++) {
+                        grid[i][j] = Integer.parseInt(line[j]);
+                    }
+                }
+            }
+            System.out.println(Arrays.deepToString(grid));
+        }
+        private static File choseTextFile () {
+            FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
+            dialog.setMode(FileDialog.LOAD);
+            dialog.setVisible(true);
+            File[] file = dialog.getFiles();
+            return file[0];
+        }
 
     /**
      * @return the min value in the entire grid
