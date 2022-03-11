@@ -68,10 +68,15 @@ public class MapDataDrawer {
      * Colors should be grayscale values 0-255, scaled based on min/max values in grid
      */
     public void drawMap(Graphics g){
-        int num = grid[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++)
-                int c =
+        int lowest = 0;
+        int highest = 255;
+        int value = 0;
+        int c = 0;
+        for (int row = 1; row < grid.length; row++) {
+            for (int col = 1; col < grid[0].length; col++) {
+                value = grid[row][col];
+                c = ((value-lowest)/(highest -lowest)) * highest;
+            }
         g.setColor(new Color(c, c, c));
         g.fillRect(x,y,1,1);
 
