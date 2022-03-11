@@ -8,7 +8,7 @@ public class MapDataDrawer {
 
     public MapDataDrawer(String filename, int rows, int columns) throws FileNotFoundException {
         grid = new int[rows][columns];
-        Scanner scan = new Scanner("files/Colorado_844x480.dat");
+        Scanner scan = new Scanner(new File(filename));
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 grid[i][j] = scan.nextInt();
@@ -20,11 +20,13 @@ public class MapDataDrawer {
     /**
      * @return the min value in the entire grid
      */
-    public int findMinValue(int[] grid) {
-        int minValue = grid[0];
-        for (int min = 1; min < grid.length; min++) {
-            if (grid[min] < minValue) {
-                minValue = grid[min];
+    public int findMinValue() {
+        int minValue = grid[0][0];
+        for (int row = 0; row < grid.length; row++) {
+            for(int col = 0; col < grid[0].length; col++){
+                if (grid[row][col] < minValue) {
+                    minValue = grid[row][col];
+            }
 
             }
 
@@ -35,13 +37,15 @@ public class MapDataDrawer {
     /**
      * @return the max value in the entire grid
      */
-    public int findMaxValue(int[] grid) {
-        int maxValue = grid[0];
-        for (int max = 1; max < grid.length; max++) {
-            if (grid[max] > maxValue) {
-                maxValue = grid[max];
-            }
+    public int findMaxValue() {
+        int maxValue = grid[0][0];
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[0].length; col++) {
+                if (grid[row][col] > maxValue) {
+                    maxValue = grid[row][col];
 
+                }
+            }
         }
         return maxValue;
     }
@@ -67,21 +71,23 @@ public class MapDataDrawer {
      * Draws the grid using the given Graphics object.
      * Colors should be grayscale values 0-255, scaled based on min/max values in grid
      */
-    public void drawMap(Graphics g){
-        int lowest = 0;
-        int highest = 255;
-        int value = 0;
+    public void drawMap(Graphics g) {
+        int lowest = findMinValue();
+        int highest = findMaxValue();
+        double value = 0;
         int c = 0;
         for (int row = 1; row < grid.length; row++) {
             for (int col = 1; col < grid[0].length; col++) {
                 value = grid[row][col];
-                c = ((value-lowest)/(highest -lowest)) * highest;
+                c = (int)(((value - lowest) / (highest - lowest)) * 255);
+                g.setColor(new Color(c, c, c));
+                g.fillRect(col,row,1,1);
             }
-        g.setColor(new Color(c, c, c));
-        g.fillRect(x,y,1,1);
 
 
-                }
+        }
+
+    }
 
     /**
      * Find a path from West-to-East starting at given row.
@@ -89,7 +95,54 @@ public class MapDataDrawer {
      * @return the total change in elevation traveled from West-to-East
      */
     public int drawLowestElevPath(Graphics g, int row){
-        for
+        g.fillRect(0,row,1,1);
+        for(int col = 1; col<grid[0].length; col++){
+            if (row == 0){
+                int current = grid[row][col-1];
+                int forward = grid[row][col];
+                int down = grid[row+1][col];
+                int a = Math.abs(current-forward);
+                int b = Math.abs(current-down);
+                if (a<b){
+                    row++;
+                }
+            }
+            else if (row< grid.length){
+                int current = grid[row][col-1];
+                int forward = grid[row][col];
+                int up = grid[row-1][col];
+                int a = Math.abs(current-forward);
+                int b = Math.abs(current-up);
+                if (a<b){
+                    row--;
+                }
+            }
+            else{
+                int current = grid[row][col-1];
+                int forward = grid[row][col];
+                int up = grid[row-1][col];
+                int down = grid[row+1][col];
+                int a = Math.abs(current-forward);
+                int b = Math.abs(current-up);
+                int c = Math.abs(current-down);
+                if (b<c && b<a){
+                    row--;
+                }
+                else if (c<a && c<b){
+                    row++;
+                }
+                else if (c == b && c<a){
+                    int x = (int)(Math.random()*2) + 1;
+                    if (x==1){
+                        row--;
+                    }
+                    else{
+                        row++;
+                    }
+                }
+            }
+            g.fillRect(col,row,1,1);
+        }
         return -1;
     }
 
