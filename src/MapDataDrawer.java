@@ -106,10 +106,10 @@ public class MapDataDrawer {
                 int b = Math.abs(current-down);
                 if (a<b){
                     row++;
-                    totalElevationChange += down;
+                    totalElevationChange += b;
                 }
                 else{
-                    totalElevationChange += down;
+                    totalElevationChange += a;
                 }
             }
             else if (row == grid.length-1){
@@ -120,10 +120,10 @@ public class MapDataDrawer {
                 int b = Math.abs(current-up);
                 if (a<b){
                     row--;
-                    totalElevationChange += up;
+                    totalElevationChange += b;
                 }
                 else{
-                    totalElevationChange += up;
+                    totalElevationChange += a;
                 }
             }
             else{
@@ -136,22 +136,25 @@ public class MapDataDrawer {
                 int c = Math.abs(current-down);
                 if (b<c && b<a){
                     row--;
-                    totalElevationChange += up;
+                    totalElevationChange += b;
                 }
                 else if (c<a && c<b){
                     row++;
-                    totalElevationChange += down;
+                    totalElevationChange += c;
                 }
                 else if (c == b && c<a){
                     int x = (int)(Math.random()*2) + 1;
                     if (x==1){
                         row--;
-                        totalElevationChange += forward;
+                        totalElevationChange += b;
                     }
                     else{
                         row++;
-                        totalElevationChange += down;
+                        totalElevationChange += c;
                     }
+                }
+                else{
+                    totalElevationChange += a;
                 }
             }
             g.fillRect(col,row,1,1);
