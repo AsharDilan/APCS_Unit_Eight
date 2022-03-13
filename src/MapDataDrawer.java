@@ -104,7 +104,7 @@ public class MapDataDrawer {
                 int down = grid[row+1][col];
                 int a = Math.abs(current-forward);
                 int b = Math.abs(current-down);
-                if (a<b){
+                if (a>b){
                     row++;
                     totalElevationChange += b;
                 }
@@ -118,7 +118,7 @@ public class MapDataDrawer {
                 int up = grid[row-1][col];
                 int a = Math.abs(current-forward);
                 int b = Math.abs(current-up);
-                if (a<b){
+                if (a>b){
                     row--;
                     totalElevationChange += b;
                 }
